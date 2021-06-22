@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 SVC_NAME="{{SvcNameVar}}"
 SVC_NAME=${SVC_NAME// /_}
@@ -106,37 +106,25 @@ function stop()
 
 function uninstall()
 {
-    if service_exists; then
-        stop
-        systemctl disable ${SVC_NAME} || failed "failed to disable ${SVC_NAME}"
-        rm "${UNIT_PATH}" || failed "failed to delete ${UNIT_PATH}"
-    else
-        echo "Service ${SVC_NAME} is not installed"
-    fi    
+    stop
+    systemctl disable ${SVC_NAME} || failed "failed to disable  ${SVC_NAME}"
+    rm "${UNIT_PATH}" || failed "failed to delete ${UNIT_PATH}"
     if [ -f "${CONFIG_PATH}" ]; then
       rm "${CONFIG_PATH}" || failed "failed to delete ${CONFIG_PATH}"
     fi
     systemctl daemon-reload || failed "failed to reload daemons"
 }
 
-function service_exists() {
-    if [ -f "${UNIT_PATH}" ]; then
-        return 0
-    else
-        return 1
-    fi
-}
-
 function status()
 {
-    if service_exists; then
+    if [ -f "${UNIT_PATH}" ]; then
         echo
         echo "${UNIT_PATH}"
     else
         echo
         echo "not installed"
         echo
-        exit 1
+        return
     fi
 
     systemctl --no-pager status ${SVC_NAME}
