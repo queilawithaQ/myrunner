@@ -75,13 +75,11 @@ namespace GitHub.Runner.Worker
                 return false;
             }
 
-            // Serialize order
+            // process action command in serialize order.
             lock (_commandSerializeLock)
             {
-                // Currently stopped
                 if (_stopProcessCommand)
                 {
-                    // Resume token
                     if (!string.IsNullOrEmpty(_stopToken) &&
                              string.Equals(actionCommand.Command, _stopToken, StringComparison.OrdinalIgnoreCase))
                     {
@@ -98,10 +96,8 @@ namespace GitHub.Runner.Worker
                         return false;
                     }
                 }
-                // Currently processing
                 else
                 {
-                    // Stop command
                     if (string.Equals(actionCommand.Command, _stopCommand, StringComparison.OrdinalIgnoreCase))
                     {
                         context.Output(input);
@@ -111,7 +107,6 @@ namespace GitHub.Runner.Worker
                         _registeredCommands.Add(_stopToken);
                         return true;
                     }
-                    // Found command
                     else if (_commandExtensions.TryGetValue(actionCommand.Command, out IActionCommandExtension extension))
                     {
                         if (context.EchoOnActionCommand && !extension.OmitEcho)
@@ -131,7 +126,6 @@ namespace GitHub.Runner.Worker
                             context.CommandResult = TaskResult.Failed;
                         }
                     }
-                    // Command not found
                     else
                     {
                         context.Warning($"Can't find command extension for ##[{actionCommand.Command}.command].");
@@ -498,13 +492,6 @@ namespace GitHub.Runner.Worker
         public override string Command => "error";
     }
 
-    public sealed class NoticeCommandExtension : IssueCommandExtension
-    {
-        public override IssueType Type => IssueType.Notice;
-
-        public override string Command => "notice";
-    }
-
     public abstract class IssueCommandExtension : RunnerService, IActionCommandExtension
     {
         public abstract IssueType Type { get; }
@@ -574,10 +561,7 @@ namespace GitHub.Runner.Worker
         {
             public const String File = "file";
             public const String Line = "line";
-            public const String EndLine = "end_line";
             public const String Column = "col";
-            public const String EndColumn = "end_column";
-            public const String Title = "title";
         }
 
     }
