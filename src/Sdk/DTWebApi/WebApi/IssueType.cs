@@ -9,9 +9,6 @@ namespace GitHub.DistributedTask.WebApi
         Error = 1,
 
         [EnumMember]
-        Warning = 2,
-
-        [EnumMember]
-        Notice = 3
+        Warning = 2
     }
 }
