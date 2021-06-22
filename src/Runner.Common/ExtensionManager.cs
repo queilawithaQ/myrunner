@@ -51,7 +51,6 @@ namespace GitHub.Runner.Common
                     Add<T>(extensions, "GitHub.Runner.Worker.RemoveMatcherCommandExtension, Runner.Worker");
                     Add<T>(extensions, "GitHub.Runner.Worker.WarningCommandExtension, Runner.Worker");
                     Add<T>(extensions, "GitHub.Runner.Worker.ErrorCommandExtension, Runner.Worker");
-                    Add<T>(extensions, "GitHub.Runner.Worker.NoticeCommandExtension, Runner.Worker");
                     Add<T>(extensions, "GitHub.Runner.Worker.DebugCommandExtension, Runner.Worker");
                     Add<T>(extensions, "GitHub.Runner.Worker.GroupCommandExtension, Runner.Worker");
                     Add<T>(extensions, "GitHub.Runner.Worker.EndGroupCommandExtension, Runner.Worker");

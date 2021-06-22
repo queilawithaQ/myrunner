@@ -8,12 +8,10 @@
 **/*.xproj
 **/*.xproj.user
 **/.vs
+**/.vscode
 **/*.error
 **/*.json.pretty
 .idea/
-.vscode
-!.vscode/launch.json
-!.vscode/tasks.json
 
 # output
 node_modules
